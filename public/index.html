@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Dashboard de Messages</title>
+    <!-- Evite l'erreur 404 de favicon dans la console du navigateur -->
+    <link rel="shortcut icon" href="data:," type="image/x-icon">
+</head>
+<body>
+    <h1>Dashboard de Messages</h1>
+    
+    <!-- Formulaire d'envoi d'un nouveau message -->
+    <form name="messagerie">
+        <input 
+            type="text" 
+            name="message" 
+            placeholder="Ajouter un message..." 
+            required 
+            autocomplete="off"
+        >
+        <button type="submit">Envoyer</button>
+    </form>
+
+    <h2>Messages enregistrés</h2>
+    <!-- Emplacement où le JavaScript insérera les messages de la BDD -->
+    <ul data-messages></ul>
+
+    <!-- Script chargé en différé après la lecture du HTML -->
+    <script src="script.js" defer></script>
+</body>
+</html>

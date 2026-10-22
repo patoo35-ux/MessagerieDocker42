@@ -1,0 +1,41 @@
+services:
+
+  # 1. Le service Web (Backend Node.js & Serveur Frontend)
+  web:
+    image: node:slim
+    working_dir: /app
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    environment:
+      PORT: ${PORT:-3000}
+      DB_HOST: bdd
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_DATABASE: ${DB_DATABASE:-postgres}
+    command: sh -c "npm install && npm run dev"
+    depends_on:
+      - bdd
+
+  # 2. Le service Base de données (PostgreSQL)
+  bdd:
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_DATABASE:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      # Chemin mis à jour pour respecter la nouvelle norme PostgreSQL 18+
+      - postgres_data:/var/lib/postgresql
+
+# 3. Sauvegarde permanente de la base de données
+volumes:
+  postgres_data:
